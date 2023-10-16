@@ -1,0 +1,12 @@
+{
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.1",
+    "cheerio": "^1.0.0-rc.12",
+    "katex": "^0.16.9",
+    "prettier": "^3.0.3"
+  },
+  "scripts": {
+    "build": "eleventy",
+    "start": "eleventy --serve"
+  }
+}

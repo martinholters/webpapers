@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="/bundle.css">
+  </head>
+  <body>
+    <h1>{{ title }}</h1>
+    <div class="author">{{ author }}</div>
+    <div class="main-content">
+      {{ content | fixrefs | safe }}
+    </div>
+  </body>
+</html>

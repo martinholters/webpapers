@@ -1,0 +1,49 @@
+---
+permalink: bundle.css
+---
+{% include "./node_modules/katex/dist/katex.min.css" %}
+
+body {
+  font-family: KaTeX_Main, 'Times New Roman', serif;
+  font-size: 16px;
+}
+
+@media print {
+  .main-content {
+    columns: 2;
+    column-gap: 25px;
+  }
+  body {
+    font-size: 10px;
+  }
+}
+
+h1 {
+  text-align: center;
+}
+.author {
+  text-align: center;
+  font-weight: bolder;
+  font-size: 130%;
+  margin: 30px 0;
+}
+
+.main-content {
+  margin: 0 auto;
+  min-width: 570px;
+  max-width: 700px;
+  text-align: justify;
+  hyphens: auto;
+}
+
+.main-content > :first-child {
+  margin-top: 0;
+}
+
+h2 {
+  break-after: avoid-page;
+}
+
+.katex {
+  font-size: 1em;
+}
