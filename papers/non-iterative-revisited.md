@@ -6,7 +6,7 @@ author: Martin Holters
 
 In [[1]](#ref:Ducceschi-2022), Ducceschi and Bilbao have introduced a family of
 non-iterative discretization schemes for ODEs. However, in their presentation,
-they make several assumption regarding the structure of the ODE, limiting the
+they make several assumptions regarding the structure of the ODE, limiting the
 gerenality of these schemes. Here, we show that for the second-order accurate
 variant in particular, the method is applicable to general (potentially
 vector-valued) ODEs.
@@ -185,6 +185,11 @@ The Taylor series of `$x(t+T)$` becomes a bit more complicated due to the second
 ```equation
 \begin{split}
 x(t+T) &= x(t) + T\dot{x}(t) + \frac{T^2}{2}\ddot{x}(t) + O(T^3) \\
+&= x(t) - Tf(x(t),c(t)) - \frac{T^2}{2}\frac{d}{dt}f(x(t),c(t)) + O(T^3) \\
+&= x(t) - Tf(x(t),c(t)) \\
+&  \quad - \frac{T^2}{2}\big(
+  J_x(x(t),c(t))\dot{x}(t) + J_c(x(t),c(t))\dot{c}(t)
+  \big) + O(T^3) \\
 &= x(t) - Tf(x(t),c(t)) \\
 & \quad + \frac{T^2}{2}\big(
     J_x(x(t),c(t))f(x(t),c(t)) - J_c(x(t),c(t))\dot{c}(t)
@@ -192,7 +197,7 @@ x(t+T) &= x(t) + T\dot{x}(t) + \frac{T^2}{2}\ddot{x}(t) + O(T^3) \\
   + O(T^3).
 \end{split}
 ```
-We now utilize the Taylor expansion
+We now utilize the Taylor expansion (w.r.t. `$T$` again)
 ```equation
 f(x(t),\tfrac12(c(t+T)+c(t)))
 = f(x(t),c(t)) + \frac{T}{2}J_c(x(t),c(t))\dot{c}(t) + O(T^2)
@@ -209,11 +214,15 @@ yielding
 \begin{split}
 x(t+T)
 &= x(t) - Tf(x(t),\tfrac12(c(t+T)+c(t))) \\
+& \quad + \frac{T^2}{2}J_x(x(t),c(t))f(x(t),c(t))+ O(T^3) \\
+&= x(t) - Tf(x(t),\tfrac12(c(t+T)+c(t))) \\
 & \quad + \frac{T^2}{2}J_x(x(t),c(t))f(x(t),\tfrac12(c(t+T)+c(t)))+ O(T^3).
 \end{split}
 ```
-Note that the terms involving `$J_c$` have cancelled and we now have `$f$`
-appearing with the desired arguments. We note in passing that if we had used
+Note that the first subtitution cancels the terms involving `$J_c$`, while the
+one re-introduced by the second substitution has been subsumed in the `$O(T^3)$`.
+We now have `$f$` appearing with the desired arguments.
+We note in passing that if we had used
 `$J_x^n=J_x\big(\hat{x}(n), \hat{c}(n)\big)$`, this would already verify
 second-order accurateness. However, we have to do one more step and employ the
 Taylor series
