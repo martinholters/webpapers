@@ -213,7 +213,92 @@ computed using {% eqref "example_imp" %}, and the `$x_\text{IMP}^{n+\tfrac12}$`
 column is computed using {% eqref "example_impalt" %}. It can be verified that
 indeed
 `$x_\text{TR}^n=\frac{1}{2}(x_\text{TR}^{n+\tfrac12}+x_\text{TR}^{n-\tfrac12})$`
-and likewise for the implicit midpoint method.
+and likewise for the implicit midpoint method, we may verify that
+`$x_\text{IMP}^{n+\tfrac12}=\frac{1}{2}(x_\text{IMP}^{n+1}+x_\text{IMP}^{n})$`.
+This can also be seen in the following figure: For the trapezoidal rule, the
+`$x_\text{TR}^n$` points are located on line segments joining
+`$x_\text{TR}^{n\pm\tfrac12}$`, while for the implicit midpoint method, it is
+the other way round.
+<svg version="1.1" width="310" height="245" class="figure" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="circle" markerWidth="8" markerHeight="8" refX="4" refY="4">
+      <circle cx="4" cy="4" r="3.5" stroke="#000" fill="none" />
+    </marker>
+    <marker id="disc" markerWidth="8" markerHeight="8" refX="4" refY="4">
+      <circle cx="4" cy="4" r="4" stroke="none" fill="#000" />
+    </marker>
+    <marker id="x" markerWidth="8" markerHeight="8" refX="4" refY="4">
+      <line x1="0" y1="0" x2="8" y2="8" stroke="#000" />
+      <line x1="0" y1="8" x2="8" y2="0" stroke="#000" />
+    </marker>
+    <marker id="+" markerWidth="8" markerHeight="8" refX="4" refY="4">
+      <line x1="0" y1="4" x2="8" y2="4" stroke="#000" />
+      <line x1="4" y1="0" x2="4" y2="8" stroke="#000" />
+    </marker>
+  </defs>
+  <g transform="translate(30, 10)">
+    <polyline stroke="none" fill="none" marker-start="url(#x)" marker-mid="url(#x)" marker-end="url(#x)" points="
+      {% for row in example_results %}{{
+        row.n | times: 50
+      }} {{
+        row.trapz | times: -200 | plus: 200
+      }}
+      {% endfor %}" />
+    <polyline stroke="#000" fill="none" marker-start="url(#circle)" marker-mid="url(#circle)" marker-end="url(#circle)" points="
+      {% for row in example_results %}{{
+        row.n | plus: 0.5 | times: 50
+      }} {{
+        row.trapzalt | times: -200 | plus: 200
+      }}
+      {% endfor %}" />
+    <polyline stroke="#000" fill="none" marker-start="url(#disc)" marker-mid="url(#disc)" marker-end="url(#disc)" points="
+      {% for row in example_results %}{{
+        row.n | times: 50
+      }} {{
+        row.imp | times: -200 | plus: 200
+      }}
+      {% endfor %}" />
+    <polyline stroke="none" fill="none" marker-start="url(#+)" marker-mid="url(#+)" marker-end="url(#+)" points="
+      {% for row in example_results %}{{
+        row.n | plus: 0.5 | times: 50
+      }} {{
+        row.impalt | times: -200 | plus: 200
+      }}
+      {% endfor %}" />
+    <text x="60" y="80">
+      <tspan class="katex"><tspan class="mathnormal">x</tspan></tspan><tspan dy="4" style="font-size:60%;">IMP</tspan>
+    </text>
+    <text x="40" y="130">
+      <tspan class="katex"><tspan class="mathnormal">x</tspan></tspan><tspan dy="4" style="font-size:60%;">TR</tspan>
+    </text>
+    <rect x="0" width="275" y="0" height="200" stroke="#000" fill="none" />
+    <g text-anchor="middle" dominant-baseline="hanging">
+      <line x1="0" y1="200" x2="0" y2="205" stroke="#000" />
+      <text x="0" y="207">0</text>
+      <line x1="50" y1="200" x2="50" y2="205" stroke="#000" />
+      <text x="50" y="207">1</text>
+      <line x1="100" y1="200" x2="100" y2="205" stroke="#000" />
+      <text x="100" y="207">2</text>
+      <line x1="150" y1="200" x2="150" y2="205" stroke="#000" />
+      <text x="150" y="207">3</text>
+      <line x1="200" y1="200" x2="200" y2="205" stroke="#000" />
+      <text x="200" y="207">4</text>
+      <line x1="250" y1="200" x2="250" y2="205" stroke="#000" />
+      <text x="250" y="207">5</text>
+      <text x="138.5" y="225">
+        <tspan class="katex"><tspan class="mathnormal">n</tspan></tspan>
+      </text>
+    </g>
+    <g text-anchor="end" dominant-baseline="middle">
+      <line x1="0" y1="0" x2="-5" y2="0" stroke="#000" />
+      <text x="-7" y="0">1</text>
+      <line x1="0" y1="100" x2="-5" y2="100" stroke="#000" />
+      <text x="-7" y="100">0.5</text>
+      <line x1="0" y1="200" x2="-5" y2="200" stroke="#000" />
+      <text x="-7" y="200">0</text>
+    </g>
+  </g>
+</svg>
 
 ## Application to implicit ODEs
 
