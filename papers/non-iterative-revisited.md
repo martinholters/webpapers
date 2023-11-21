@@ -7,11 +7,11 @@ author: Martin Holters
 In [[1]](#ref:Ducceschi-2022), Ducceschi and Bilbao have introduced a family of
 non-iterative discretization schemes for ODEs. However, in their presentation,
 they make several assumptions regarding the structure of the ODE, limiting the
-gerenality of these schemes. Here, we show that for the second-order accurate
+generality of these schemes. Here, we show that for the second-order accurate
 variant in particular, the method is applicable to general (potentially
 vector-valued) ODEs.
 
-In the following, `$x(t)$` denotes the state of a system goverened by an ODE and
+In the following, `$x(t)$` denotes the state of a system governed by an ODE and
 `$\dot{x}(t)$` it derivative. When obvious from the context, we drop the
 argument `$t$`. We seek an approximation `$\hat{x}(n) \approx x(nT)$` where
 `$T$` is the sampling interval. For given signals like an input `$u(t)$`, we
@@ -163,7 +163,7 @@ Now consider a vector-valued ODE of the form
 where `$f$` is arbitrary and includes a driving term `$c$`. (For simplicity, we
 only consider a zero right-hand side, as a non-zero right-hand side could easily
 be subsumed in `$f$`.) In the following, let `$J_x$` and `$J_c$` denote the
-Jacobians of `$f$` with respect to `$x$` and `$c$`, repectively. We adapt
+Jacobians of `$f$` with respect to `$x$` and `$c$`, respectively. We adapt
 {% eqref "non-iterative-order-2-explicit" %} as
 ```equation label=non-iterative-with-driving-term
 \hat{x}(n+1)
@@ -219,7 +219,7 @@ x(t+T)
 & \quad + \frac{T^2}{2}J_x(x(t),c(t))f(x(t),\tfrac12(c(t+T)+c(t)))+ O(T^3).
 \end{split}
 ```
-Note that the first subtitution cancels the terms involving `$J_c$`, while the
+Note that the first substitution cancels the terms involving `$J_c$`, while the
 one re-introduced by the second substitution has been subsumed in the `$O(T^3)$`.
 We now have `$f$` appearing with the desired arguments.
 We note in passing that if we had used

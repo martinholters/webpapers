@@ -5,11 +5,11 @@ author: Martin Holters
 
 ## Introduction
 
-Consider an autonomous ordinary differetial equation (ODE)
+Consider an autonomous ordinary differential equation (ODE)
 ```equation
 \dot{x} = f(x)
 ```
-where `$x$` is the state vector. For general `$f$`, sovling analytically is
+where `$x$` is the state vector. For general `$f$`, solving analytically is
 usually impossible and we have to resort to numerical methods that seek to
 compute a sequence `$x^n\approx x(nT)$`, where `$T$` is the time-step, here
 assumed constant for simplicity. Furthermore, we only consider the initial value
@@ -21,7 +21,7 @@ shall review their similarity.
 
 ## Reminder of the implicit midpoint rule
 
-Just as a brief reminder, for an ODE `$\dot{x} = f(x)$`, the implcit midpoint
+Just as a brief reminder, for an ODE `$\dot{x} = f(x)$`, the implicit midpoint
 method is given by
 ```equation label=imp
   x^{n+1} = x^n + Tf\big(\tfrac{1}{2}(x^{n+1} + x^n)\big).
@@ -81,7 +81,7 @@ the actual states have to be recovered with {% eqref "trapzstate" %}.
 ## The implicit midpoint method revisited
 
 Given that we could rewrite the trapezoidal rule such that it looked like the
-implicit midpoint rule time-shifted by `$\frac{1}{2}$`, it should be possbile to
+implicit midpoint rule time-shifted by `$\frac{1}{2}$`, it should be possible to
 also go the other way. Indeed, letting
 ```equation label=impstate
 x^{n+\tfrac12} = \frac{1}{2}(x^{n+1}+x^{n})
@@ -310,7 +310,7 @@ and assume there exists a function `$f$` such that
 ```equation label=implicitly_defined_f
 g(x, f(x)) = 0,
 ```
-i.e. we have the corresponsing ODE `$\dot{x}=f(x)$`, but `$f$` may not be
+i.e. we have the corresponding ODE `$\dot{x}=f(x)$`, but `$f$` may not be
 available in closed form, so evaluating it may require expensive numerical
 solving. Of course, with this definition of `$f$`,
 {% eqref "implicitly_defined_f" %} should also hold for `$x^n$`, so that we have
@@ -325,7 +325,7 @@ g\left(\tfrac12 \big(x^{n+\frac12} + x^{n-\frac12}\big),
 ```
 which can be used to produce a sequence `$x^{n+\frac12}$` by repeated numerical
 solution and then recover `$x^n$` with {% eqref "trapzstate" %}. We have thus
-applied the trapezoidel rule to {% eqref "implicit_ode" %} without requiring
+applied the trapezoidal rule to {% eqref "implicit_ode" %} without requiring
 `$f$`. In fact, this way we can apply the trapezoidal rule to
 differential-algebraic equations (DAEs), which are of the form {% eqref
 "implicit_ode" %} but where no solution function `$f$` exists. However, the
