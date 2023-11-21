@@ -157,7 +157,7 @@ it is obvious that the method is second-order accurate.
 
 ### Including a driving term
 Now consider a vector-valued ODE of the form
-```equation
+```equation label=ode-with-driving-term
 \dot{x} + f(x,c) = 0
 ```
 where `$f$` is arbitrary and includes a driving term `$c$`. (For simplicity, we
@@ -165,7 +165,7 @@ only consider a zero right-hand side, as a non-zero right-hand side could easily
 be subsumed in `$f$`.) In the following, let `$J_x$` and `$J_c$` denote the
 Jacobians of `$f$` with respect to `$x$` and `$c$`, repectively. We adapt
 {% eqref "non-iterative-order-2-explicit" %} as
-```equation 
+```equation label=non-iterative-with-driving-term
 \hat{x}(n+1)
 =
 \hat{x}(n)-\left(I + \frac{T}{2}J_x^n\right)^{-1}
@@ -242,9 +242,65 @@ x(t+T)
 Comparison with {% eqref "non-iterative-order-2-taylor" %} now shows that the
 method is indeed second-order accurate.
 
+## Connection to the implicit midpoint method
+
+If we apply the the implicit midpoint method to {% eqref "ode-with-driving-term"
+%} and approximate `$c((n+\tfrac{1}{2})T)$` with
+`$\tfrac{1}{2}(\hat{c}(n+1)+\hat{c}(n))$` [[2]](#ref:Germain-2017), we obtain
+```equation
+\frac{1}{T}(\hat{x}(n+1)-\hat{x}(n))
++ f(\tfrac{1}{2}(\hat{x}(n+1)+\hat{x}(n)),\tfrac{1}{2}(\hat{c}(n+1)+\hat{c}(n)))
+= 0.
+```
+Usually, no closed from solution for `$\hat{x}(n+1)$` is available and one has
+to resort to numerical solution methods. In particular, we shall consider
+Newton-Raphson iteration, which for this case is given by
+```equation
+\begin{split}
+\hat{x}_{i+1} &= \hat{x}_i -
+\left(
+  \frac{1}{T}I + \frac{1}{2}J_x(\tfrac{1}{2}(\hat{x}_i+\hat{x}(n)),\tfrac{1}{2}(\hat{c}(n+1)+\hat{c}(n)))
+\right)^{-1}
+\\
+&\qquad\qquad
+\left(
+  \frac{1}{T}(\hat{x}_i-\hat{x}(n))
+  + f(\tfrac{1}{2}(\hat{x}_i+\hat{x}(n)),\tfrac{1}{2}(\hat{c}(n+1)+\hat{c}(n)))
+\right).
+\end{split}
+```
+Given an appropriate starting point `$\hat{x}_0$`, `$\hat{x}_i$` will converge to
+the desired solution `$\hat{x}(n+1)$`. A reasonable choice for the starting
+point that is often used in practice is the solution from the previous time
+step, i.e. `$\hat{x}_0=\hat{x}(n)$`. With this choice, the first iteration becomes
+```equation
+\begin{split}
+\hat{x}_{1}
+&= \hat{x}(n) -
+  \left(
+    \frac{1}{T}I + \frac{1}{2}J_x(\hat{x}(n),\tfrac{1}{2}(\hat{c}(n+1)+\hat{c}(n)))
+  \right)^{-1}
+  f(\hat{x}(n),\tfrac{1}{2}(\hat{c}(n+1)+\hat{c}(n)))
+\\
+&= \hat{x}(n) - \left(I + \frac{T}{2}J_x^n\right)^{-1}Tf^n.
+\end{split}
+```
+So if we terminate the Newton-Raphson method after the first iteration and let
+`$\hat{x}(n+1)=\hat{x}_1$`, we recover {% eqref
+"non-iterative-with-driving-term" %}. Thus, the non-iterative method of accuracy
+order 2 can also be viewed as an approximation of the implicit midpoint method
+with (very) early termination of the numerical solver. It is remarkable that
+even with an exact solution, the implicit midpoint method has accuracy order 2,
+so this approximation does not decrease the accuracy order (but it does impact
+stability).
+
 ## Bibliography
 
 <div id="ref:Ducceschi-2022">[1] M. Ducceschi and S. Bilbao,
 Non-iterative simulation methods for virtual analog modelling.
 <i>IEEE/ACM Transactions on Audio, Speech, and Language Processing</i>,
 vol. 50, pp. 3189–3198, 2022.</div>
+<div id="ref:Germain-2017">[2] F.G. Germain,
+Fixed-rate modeling of audio lumped systems: a comparison between trapezoidal and implicit midpoint methods.
+<i>Proceedings of the 20th International Conference on Digital Audio Effects (DAFx-17)</i>,
+pp. 168–175, Edinburgh, 2017.</div>
